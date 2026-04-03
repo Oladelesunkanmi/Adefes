@@ -28,7 +28,7 @@ const Checkout = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Simple validation
@@ -37,13 +37,44 @@ const Checkout = () => {
             return;
         }
 
-        // Simulate order processing
-        showToast('Order placed successfully!', 'success');
-        clearCart();
+        const token = localStorage.getItem('token');
+        if (!token) {
+            showToast('Please login to place an order', 'error');
+            navigate('/login');
+            return;
+        }
 
-        setTimeout(() => {
-            navigate('/');
-        }, 2000);
+        try {
+            const orderData = {
+                items: cartItems.map(item => ({
+                    product_id: item.product.id,
+                    quantity: item.quantity,
+                    price_at_purchase: item.product.price
+                }))
+            };
+
+            const response = await fetch('http://localhost:8080/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(orderData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.text();
+                throw new Error(errorData || 'Failed to place order');
+            }
+
+            const order = await response.json();
+            showToast('Order placed successfully!', 'success');
+            clearCart();
+            navigate(`/order-success/${order.id}`);
+        } catch (error) {
+            console.error('Checkout error:', error);
+            showToast(error.message || 'Failed to place order', 'error');
+        }
     };
 
     if (cartItems.length === 0) {
@@ -163,7 +194,7 @@ const Checkout = () => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium mb-2">State *</label>
+                                            <label className="block text-sm font-medium mb-2">State / LGA *</label>
                                             <input
                                                 type="text"
                                                 name="state"
@@ -174,7 +205,7 @@ const Checkout = () => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium mb-2">ZIP Code *</label>
+                                            <label className="block text-sm font-medium mb-2">Postal Code</label>
                                             <input
                                                 type="text"
                                                 name="zipCode"
@@ -276,7 +307,7 @@ const Checkout = () => {
                                             <p className="text-xs text-gray-500">
                                                 {item.size && `Size: ${item.size} • `}Qty: {item.quantity}
                                             </p>
-                                            <p className="text-sm font-semibold">${(item.product.price * item.quantity).toFixed(2)}</p>
+                                            <p className="text-sm font-semibold">₦{(item.product.price * item.quantity).toLocaleString()}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -285,7 +316,7 @@ const Checkout = () => {
                             <div className="border-t pt-4 space-y-2">
                                 <div className="flex justify-between text-sm">
                                     <span>Subtotal</span>
-                                    <span>${getCartTotal().toFixed(2)}</span>
+                                    <span>₦{getCartTotal().toLocaleString()}</span>
                                 </div>
                                 <div className="flex justify-between text-sm">
                                     <span>Shipping</span>
@@ -293,7 +324,7 @@ const Checkout = () => {
                                 </div>
                                 <div className="flex justify-between font-bold text-lg pt-2 border-t">
                                     <span>Total</span>
-                                    <span>${getCartTotal().toFixed(2)}</span>
+                                    <span>₦{getCartTotal().toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>

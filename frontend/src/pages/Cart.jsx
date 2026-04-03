@@ -70,7 +70,7 @@ const Cart = () => {
                                                 {item.size && ` • Size: ${item.size}`}
                                             </p>
                                         </div>
-                                        <p className="font-playfair font-bold text-base sm:text-lg ml-4 text-black">${item.product.price.toFixed(2)}</p>
+                                        <p className="font-playfair font-bold text-base sm:text-lg ml-4 text-black">₦{item.product.price.toLocaleString()}</p>
                                     </div>
 
                                     <div className="flex items-center justify-between mt-4">
@@ -103,7 +103,7 @@ const Cart = () => {
 
                                     {/* Subtotal */}
                                     <p className="text-sm text-gray-800 mt-3 font-medium">
-                                        Subtotal: <span className="font-bold text-black">${(item.product.price * item.quantity).toFixed(2)}</span>
+                                        Subtotal: <span className="font-bold text-black">₦{(item.product.price * item.quantity).toLocaleString()}</span>
                                     </p>
                                 </div>
                             </div>
@@ -125,7 +125,7 @@ const Cart = () => {
                             <div className="space-y-3 mb-6">
                                 <div className="flex justify-between text-sm">
                                     <span className="text-gray-700 font-medium">Subtotal</span>
-                                    <span className="font-bold text-black">${getCartTotal().toFixed(2)}</span>
+                                    <span className="font-bold text-black">₦{getCartTotal().toLocaleString()}</span>
                                 </div>
                                 <div className="flex justify-between text-sm">
                                     <span className="text-gray-700 font-medium">Shipping</span>
@@ -133,7 +133,7 @@ const Cart = () => {
                                 </div>
                                 <div className="border-t border-gray-300 pt-3 flex justify-between">
                                     <span className="font-bold text-black">Total</span>
-                                    <span className="font-playfair text-xl font-bold text-black">${getCartTotal().toFixed(2)}</span>
+                                    <span className="font-playfair text-xl font-bold text-black">₦{getCartTotal().toLocaleString()}</span>
                                 </div>
                             </div>
 
@@ -145,7 +145,7 @@ const Cart = () => {
                             </button>
 
                             <p className="text-xs text-gray-500 text-center">
-                                Free shipping on orders over $200
+                                Free delivery within Lagos on all orders
                             </p>
                         </div>
                     </div>

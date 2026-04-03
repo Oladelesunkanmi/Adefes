@@ -8,6 +8,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -59,17 +61,35 @@ func main() {
 		w.Write([]byte("Database: Disconnected"))
 	})
 
+	// Serve static files from the "uploads" directory
+	workDir, _ := os.Getwd()
+	filesDir := http.Dir(filepath.Join(workDir, "uploads"))
+	FileServer(r, "/uploads", filesDir)
+
 	r.Route("/api", func(r chi.Router) {
 		// Public routes
 		r.Post("/register", api.RegisterHandler)
 		r.Post("/login", api.LoginHandler)
 		r.Get("/products", api.GetProductsHandler)
+		r.Get("/products/search", api.SearchProductsHandler)
 		r.Get("/products/{id}", api.GetProductByIDHandler)
 
 		// Protected routes
 		r.Group(func(r chi.Router) {
 			r.Use(api.AuthMiddleware)
-			r.Post("/orders", api.CreateOrderHandler)
+			r.Get("/orders", api.GetOrdersHandler)
+		})
+
+		// Admin routes
+		r.Group(func(r chi.Router) {
+			r.Use(api.AuthMiddleware)
+			r.Use(api.AdminMiddleware)
+			r.Post("/products", api.CreateProductHandler)
+			r.Delete("/products/{id}", api.DeleteProductHandler)
+
+			// Admin user management
+			r.Get("/admin/users", api.GetUsersHandler)
+			r.Put("/admin/users/{email}/role", api.UpdateUserRoleHandler)
 		})
 	})
 
@@ -80,4 +100,25 @@ func main() {
 
 	fmt.Printf("Server running on port %s\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, r))
+}
+
+// FileServer conveniently sets up a http.FileServer handler to serve
+// static files from a http.FileSystem.
+func FileServer(r chi.Router, path string, root http.FileSystem) {
+	if strings.ContainsAny(path, "{}*") {
+		panic("FileServer does not permit any URL parameters.")
+	}
+
+	if path != "/" && path[len(path)-1] != '/' {
+		r.Get(path, http.RedirectHandler(path+"/", http.StatusMovedPermanently).ServeHTTP)
+		path += "/"
+	}
+	path += "*"
+
+	r.Get(path, func(w http.ResponseWriter, r *http.Request) {
+		rctx := chi.RouteContext(r.Context())
+		pathPrefix := strings.TrimSuffix(rctx.RoutePattern(), "/*")
+		fs := http.StripPrefix(pathPrefix, http.FileServer(root))
+		fs.ServeHTTP(w, r)
+	})
 }

@@ -62,3 +62,45 @@ func CreateOrder(userID int, totalAmount float64, items []OrderItem) (*Order, er
 	order.Items = items
 	return &order, nil
 }
+
+func GetOrdersByUserID(userID int) ([]Order, error) {
+	if DB == nil {
+		return nil, fmt.Errorf("database not connected")
+	}
+
+	ctx := context.Background()
+	query := `SELECT id, user_id, total_amount, status, created_at FROM orders WHERE user_id = $1 ORDER BY created_at DESC`
+	rows, err := DB.Query(ctx, query, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var orders []Order
+	for rows.Next() {
+		var o Order
+		if err := rows.Scan(&o.ID, &o.UserID, &o.TotalAmount, &o.Status, &o.CreatedAt); err != nil {
+			return nil, err
+		}
+
+		// Fetch items for each order
+		itemQuery := `SELECT id, order_id, product_id, quantity, price_at_purchase FROM order_items WHERE order_id = $1`
+		itemRows, err := DB.Query(ctx, itemQuery, o.ID)
+		if err != nil {
+			return nil, err
+		}
+
+		for itemRows.Next() {
+			var item OrderItem
+			if err := itemRows.Scan(&item.ID, &item.OrderID, &item.ProductID, &item.Quantity, &item.PriceAtPurchase); err != nil {
+				itemRows.Close()
+				return nil, err
+			}
+			o.Items = append(o.Items, item)
+		}
+		itemRows.Close()
+		orders = append(orders, o)
+	}
+
+	return orders, nil
+}

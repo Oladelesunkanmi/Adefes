@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-
-
 :root {
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -44,20 +42,4 @@ h6 {
 button {
   cursor: pointer;
   font-family: inherit;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #e5e5e5;
-    background-color: #121212;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: #ffffff;
-  }
 }

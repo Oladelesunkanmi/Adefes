@@ -11,6 +11,7 @@ type User struct {
 	Name         string    `json:"name"`
 	Email        string    `json:"email"`
 	PasswordHash string    `json:"-"`
+	Role         string    `json:"role"`
 	CreatedAt    time.Time `json:"created_at"`
 }
 
@@ -19,7 +20,7 @@ func CreateUser(name, email, passwordHash string) (*User, error) {
 		return nil, fmt.Errorf("database not connected")
 	}
 
-	query := `INSERT INTO users (name, email, password_hash) VALUES ($1, $2, $3) RETURNING id, created_at`
+	query := `INSERT INTO users (name, email, password_hash, role) VALUES ($1, $2, $3, 'user') RETURNING id, role, created_at`
 
 	user := &User{
 		Name:         name,
@@ -27,7 +28,7 @@ func CreateUser(name, email, passwordHash string) (*User, error) {
 		PasswordHash: passwordHash,
 	}
 
-	err := DB.QueryRow(context.Background(), query, name, email, passwordHash).Scan(&user.ID, &user.CreatedAt)
+	err := DB.QueryRow(context.Background(), query, name, email, passwordHash).Scan(&user.ID, &user.Role, &user.CreatedAt)
 	if err != nil {
 		return nil, err
 	}
@@ -40,15 +41,59 @@ func GetUserByEmail(email string) (*User, error) {
 		return nil, fmt.Errorf("database not connected")
 	}
 
-	query := `SELECT id, name, email, password_hash, created_at FROM users WHERE email = $1`
+	query := `SELECT id, name, email, password_hash, role, created_at FROM users WHERE email = $1`
 
 	user := &User{}
 	err := DB.QueryRow(context.Background(), query, email).Scan(
-		&user.ID, &user.Name, &user.Email, &user.PasswordHash, &user.CreatedAt,
+		&user.ID, &user.Name, &user.Email, &user.PasswordHash, &user.Role, &user.CreatedAt,
 	)
 	if err != nil {
 		return nil, err
 	}
 
 	return user, nil
+}
+
+func GetAllUsers() ([]User, error) {
+	if DB == nil {
+		return nil, fmt.Errorf("database not connected")
+	}
+
+	query := `SELECT id, name, email, role, created_at FROM users ORDER BY created_at DESC`
+
+	rows, err := DB.Query(context.Background(), query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []User
+	for rows.Next() {
+		var user User
+		err := rows.Scan(&user.ID, &user.Name, &user.Email, &user.Role, &user.CreatedAt)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
+}
+
+func UpdateUserRole(email string, role string) error {
+	if DB == nil {
+		return fmt.Errorf("database not connected")
+	}
+
+	query := `UPDATE users SET role = $1 WHERE email = $2`
+	tag, err := DB.Exec(context.Background(), query, role, email)
+	if err != nil {
+		return err
+	}
+
+	if tag.RowsAffected() == 0 {
+		return fmt.Errorf("no user found with email: %s", email)
+	}
+
+	return nil
 }

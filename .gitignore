@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+backend/vendor/
+
+# Environment configurations
+.env
+.env.*
+!.env.example
+
+# Go build outputs
+backend/*.exe
+backend/server
+*.o
+*.a
+*.so
+backend/main.exe
+*.test
+*/go.work
+*/go.work.sum
+
+# Frontend build outputs
+frontend/dist/
+frontend/build/
+frontend/dist-ssr/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS or Editor specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Database or temporary local DB files (if any sqlite are used)
+*.sqlite
+*.db
+*.sqlite3
+
+# Build/temp directories
+coverage/
+.nyc_output/
+.vercel
+.netlify

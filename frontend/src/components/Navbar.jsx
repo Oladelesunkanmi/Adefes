@@ -31,12 +31,34 @@ const Navbar = () => {
 
                     {/* Icons */}
                     <div className="hidden md:flex items-center space-x-6">
-                        <button className="text-gray-800 hover:text-black transition-colors">
-                            <Search className="h-5 w-5" />
-                        </button>
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                const query = e.target.search.value;
+                                if (query.trim()) {
+                                    window.location.href = `/shop?search=${encodeURIComponent(query)}`;
+                                }
+                            }}
+                            className="relative flex items-center"
+                        >
+                            <input
+                                name="search"
+                                type="text"
+                                placeholder="Search products..."
+                                className="pl-4 pr-10 py-1.5 border-b border-gray-200 focus:border-black outline-none transition-all w-48 focus:w-64 text-sm"
+                            />
+                            <button type="submit" className="absolute right-0 text-gray-800 hover:text-black transition-colors">
+                                <Search className="h-5 w-5" />
+                            </button>
+                        </form>
                         {user ? (
                             <>
-                                <Link to="/account" className="text-gray-800 hover:text-black transition-colors">
+                                {user.role === 'admin' && (
+                                    <Link to="/admin" className="text-gray-800 hover:text-black transition-colors uppercase text-[10px] tracking-widest font-bold border-r border-gray-100 pr-4 mr-2">
+                                        Admin
+                                    </Link>
+                                )}
+                                <Link to="/orders" className="text-gray-800 hover:text-black transition-colors" title="My Orders">
                                     <User className="h-5 w-5" />
                                 </Link>
                                 <Link to="/cart" className="text-gray-800 hover:text-black transition-colors relative">
@@ -47,6 +69,15 @@ const Navbar = () => {
                                         </span>
                                     )}
                                 </Link>
+                                <button
+                                    onClick={() => {
+                                        localStorage.removeItem('token');
+                                        window.location.href = '/login';
+                                    }}
+                                    className="text-gray-800 hover:text-black transition-colors text-xs uppercase tracking-widest font-bold border-l pl-6 ml-2"
+                                >
+                                    Logout
+                                </button>
                             </>
                         ) : (
                             <Link to="/login" className="text-gray-800 hover:text-black transition-colors text-sm uppercase tracking-wide font-bold">

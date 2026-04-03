@@ -16,9 +16,10 @@ func init() {
 	}
 }
 
-func GenerateToken(userID int) (string, error) {
+func GenerateToken(userID int, role string) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id": userID,
+		"role":    role,
 		"exp":     time.Now().Add(time.Hour * 24).Unix(),
 	}
 

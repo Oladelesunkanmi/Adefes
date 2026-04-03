@@ -48,6 +48,22 @@ func AuthMiddleware(next http.Handler) http.Handler {
 
 		userID := int(userIDFloat)
 		ctx := context.WithValue(r.Context(), UserIDKey, userID)
+
+		// Also store role in context
+		role, _ := claims["role"].(string)
+		ctx = context.WithValue(ctx, contextKey("role"), role)
+
 		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+func AdminMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		role, ok := r.Context().Value(contextKey("role")).(string)
+		if !ok || role != "admin" {
+			http.Error(w, "Forbidden: Admin access required", http.StatusForbidden)
+			return
+		}
+		next.ServeHTTP(w, r)
 	})
 }

@@ -41,7 +41,8 @@ const Signup = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-brand-dark-gray px-4 py-8 sm:py-12">
             <div className="max-w-md w-full bg-white p-6 sm:p-8 shadow-md border border-gray-100">
-                <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-center mb-6 sm:mb-8 text-black">Create Account</h2>
+                <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-center mb-2 sm:mb-3 text-black">Join Adefes</h2>
+                <p className="text-center text-gray-500 text-sm mb-6 sm:mb-8">Create your account and discover premium Nigerian men's wear</p>
 
                 {error && (
                     <div className="bg-red-50 text-red-600 p-3 mb-4 text-sm">{error}</div>
