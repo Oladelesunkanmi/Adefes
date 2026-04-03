@@ -244,6 +244,7 @@ const AdminDashboard = () => {
                                         <option value="Agbada">Agbada</option>
                                         <option value="Kaftan">Kaftan</option>
                                         <option value="Senator">Senator</option>
+                                        <option value="Suit">Suit</option>
                                         <option value="Accessories">Accessories</option>
                                     </select>
                                 </div>

@@ -65,7 +65,7 @@ const Shop = () => {
         }
     };
 
-    const categories = ['All', 'Agbada', 'Kaftan', 'Senator', 'Accessories'];
+    const categories = ['All', 'Agbada', 'Kaftan', 'Senator', 'Suit', 'Accessories'];
 
     let filteredProducts = selectedCategory === 'All'
         ? products

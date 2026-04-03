@@ -1,13 +1,24 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-emerald: #064e3b;
+  --color-brand-emerald-dark: #022c22;
+  --color-brand-emerald-light: #0d9f6e;
+  --color-brand-gold: #d4af37;
+  --color-brand-gold-dark: #b8860b;
+  --color-brand-charcoal: #111827;
+  --color-brand-ivory: #faf9f6;
+  --color-brand-cream: #fdfbf7;
+  --color-brand-gray: #e5e7eb;
+}
 :root {
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light;
-  color: #121212;
-  background-color: #ffffff;
+  color: #111827;
+  background-color: #faf9f6;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,7 +30,8 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  color: #121212;
+  color: #111827;
+  background-color: #faf9f6;
 }
 
 a {
@@ -36,7 +48,7 @@ h4,
 h5,
 h6 {
   font-family: 'Playfair Display', serif;
-  color: #121212;
+  color: #111827;
 }
 
 button {
