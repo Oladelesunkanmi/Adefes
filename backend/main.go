@@ -39,7 +39,7 @@ func main() {
 
 	// CORS Configuration
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:5173"}, // Allow frontend origin
+		AllowedOrigins:   []string{"http://localhost:5173", "https://adefes-1.onrender.com"}, // Allow frontend origin
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
