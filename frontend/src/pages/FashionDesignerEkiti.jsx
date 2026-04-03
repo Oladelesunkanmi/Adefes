@@ -16,7 +16,9 @@ const FashionDesignerEkiti = () => {
             />
 
             {/* Hero Section */}
-            <section className="relative bg-black text-white py-20 lg:py-28">
+            <section className="relative bg-gradient-to-br from-brand-charcoal via-brand-emerald-dark to-black text-white py-20 lg:py-32 overflow-hidden">
+                {/* Subtle overlay pattern/animation */}
+                <div className="absolute inset-0 bg-brand-gold/5 blur-[100px] rounded-full animate-pulse"></div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-3xl">
                         <div className="flex items-center gap-2 mb-4">
@@ -29,22 +31,22 @@ const FashionDesignerEkiti = () => {
                         <p className="text-lg sm:text-xl text-gray-300 mb-8 leading-relaxed">
                             Welcome to <strong>Adefes Fashion House</strong> — the premier <strong>fashion designer in Ekiti</strong>, Nigeria. We create breathtaking Agbada, Kaftan, Senator styles, and custom men's traditional wear with handcrafted embroidery that tells your story.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex flex-col sm:flex-row gap-5 relative z-10">
                             <a
                                 href={whatsappUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="bg-green-600 text-white px-8 py-4 uppercase tracking-widest text-xs font-bold flex items-center justify-center gap-2 hover:bg-green-700 transition-all"
+                                className="bg-[#25D366] text-white px-8 py-4 uppercase tracking-[0.2em] text-[10px] font-bold flex items-center justify-center gap-3 hover:bg-[#20bd5a] hover:-translate-y-1 hover:shadow-xl transition-all duration-300 rounded-sm"
                             >
                                 <Phone className="h-4 w-4" />
                                 Contact on WhatsApp
                             </a>
                             <Link
                                 to="/shop"
-                                className="bg-white text-black px-8 py-4 uppercase tracking-widest text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition-all"
+                                className="bg-brand-gold text-brand-charcoal px-8 py-4 uppercase tracking-[0.2em] text-[10px] font-bold flex items-center justify-center gap-3 hover:bg-brand-ivory hover:-translate-y-1 hover:shadow-xl transition-all duration-300 rounded-sm group"
                             >
                                 Browse Our Collection
-                                <ArrowRight className="h-4 w-4" />
+                                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
                     </div>
@@ -231,27 +233,27 @@ const FashionDesignerEkiti = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="bg-black text-white py-16 lg:py-24" aria-labelledby="cta-heading">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h2 id="cta-heading" className="text-3xl sm:text-4xl font-playfair font-bold mb-6">
+            <section className="relative bg-gradient-to-t from-black to-brand-emerald-dark text-brand-ivory py-16 lg:py-24 overflow-hidden" aria-labelledby="cta-heading">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                    <h2 id="cta-heading" className="text-3xl sm:text-4xl font-playfair font-bold mb-6 text-brand-gold drop-shadow-md">
                         Ready to Look Your Best?
                     </h2>
-                    <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
+                    <p className="text-brand-ivory/80 text-lg mb-10 max-w-2xl mx-auto">
                         Whether you need a grand Agbada for your wedding or a sharp Senator style for the boardroom, the best <strong>fashion designer in Ekiti</strong> is ready to serve you. Contact us today for a consultation.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <div className="flex flex-col sm:flex-row gap-5 justify-center">
                         <a
                             href={whatsappUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-green-600 text-white px-8 py-4 uppercase tracking-widest text-xs font-bold flex items-center justify-center gap-2 hover:bg-green-700 transition-all"
+                            className="bg-[#25D366] text-white px-8 py-4 uppercase tracking-[0.2em] text-[10px] font-bold flex items-center justify-center gap-3 hover:bg-[#20bd5a] hover:-translate-y-1 hover:shadow-xl transition-all duration-300 rounded-sm"
                         >
                             <Phone className="h-4 w-4" />
                             WhatsApp: 08154280329
                         </a>
                         <a
                             href="tel:+2348154280329"
-                            className="bg-white text-black px-8 py-4 uppercase tracking-widest text-xs font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition-all"
+                            className="bg-brand-gold text-brand-charcoal px-8 py-4 uppercase tracking-[0.2em] text-[10px] font-bold flex items-center justify-center gap-3 hover:bg-brand-ivory hover:-translate-y-1 hover:shadow-xl transition-all duration-300 rounded-sm"
                         >
                             <Phone className="h-4 w-4" />
                             Call: 08154280329

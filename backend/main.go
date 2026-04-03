@@ -47,8 +47,26 @@ func main() {
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
 
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello from Adefes Backend!"))
+	// Serve React Frontend (SPA)
+	distPath := "./frontend/dist"
+	if _, err := os.Stat(distPath); os.IsNotExist(err) {
+		distPath = "../frontend/dist" // fallback if running from backend folder
+	}
+	fs := http.FileServer(http.Dir(distPath))
+
+	r.Get("/*", func(w http.ResponseWriter, r *http.Request) {
+		// Prevent the frontend handler from catching /api or /uploads requests that somehow slipped through
+		if strings.HasPrefix(r.URL.Path, "/api") || strings.HasPrefix(r.URL.Path, "/uploads") {
+			http.NotFound(w, r)
+			return
+		}
+
+		// Check if file exists, else serve index.html for React Router SPA
+		if _, err := os.Stat(filepath.Join(distPath, r.URL.Path)); os.IsNotExist(err) {
+			http.ServeFile(w, r, filepath.Join(distPath, "index.html"))
+		} else {
+			fs.ServeHTTP(w, r)
+		}
 	})
 
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
