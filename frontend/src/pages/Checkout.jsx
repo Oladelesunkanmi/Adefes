@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { ArrowLeft, CreditCard, MapPin, User, Mail, Phone } from 'lucide-react';
+import config from '../config';
 
 const Checkout = () => {
     const navigate = useNavigate();
@@ -53,7 +54,7 @@ const Checkout = () => {
                 }))
             };
 
-            const response = await fetch('http://localhost:8080/api/orders', {
+            const response = await fetch(`${config.API_BASE_URL}/api/orders`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

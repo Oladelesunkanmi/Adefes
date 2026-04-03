@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import { Package, ChevronRight, Clock } from 'lucide-react';
+import config from '../config';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -18,7 +19,7 @@ const Orders = () => {
             }
 
             try {
-                const response = await fetch('http://localhost:8080/api/orders', {
+                const response = await fetch(`${config.API_BASE_URL}/api/orders`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
