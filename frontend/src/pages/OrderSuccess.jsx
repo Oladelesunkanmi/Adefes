@@ -25,7 +25,7 @@ const OrderSuccess = () => {
                 <div className="space-y-4">
                     <button
                         onClick={() => navigate('/shop')}
-                        className="w-full bg-black text-white py-4 uppercase tracking-widest text-sm font-bold hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+                        className="w-full bg-brand-gold text-brand-charcoal py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-brand-emerald-dark hover:text-brand-ivory hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 rounded-sm"
                     >
                         Continue Shopping
                         <ArrowRight className="h-4 w-4" />

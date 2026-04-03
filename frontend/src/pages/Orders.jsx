@@ -61,7 +61,7 @@ const Orders = () => {
                         <p className="text-gray-500 mb-6">You haven't placed any orders yet. Explore our Agbada and men's wear collection.</p>
                         <button
                             onClick={() => navigate('/shop')}
-                            className="bg-black text-white px-8 py-3 uppercase tracking-widest text-sm font-bold hover:bg-gray-800"
+                            className="bg-brand-gold text-brand-charcoal px-8 py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-brand-emerald-dark hover:text-brand-ivory hover:-translate-y-1 hover:shadow-xl transition-all duration-300 rounded-sm"
                         >
                             Start Shopping
                         </button>

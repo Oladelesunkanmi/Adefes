@@ -84,7 +84,7 @@ const Checkout = () => {
                     <p className="text-gray-500 mb-4">Your cart is empty</p>
                     <button
                         onClick={() => navigate('/shop')}
-                        className="bg-black text-white px-6 py-3 uppercase tracking-widest text-sm font-bold hover:bg-gray-800"
+                        className="bg-brand-gold text-brand-charcoal px-8 py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-brand-emerald-dark hover:text-brand-ivory hover:-translate-y-1 hover:shadow-xl transition-all duration-300 rounded-sm"
                     >
                         Continue Shopping
                     </button>
@@ -280,7 +280,7 @@ const Checkout = () => {
 
                             <button
                                 type="submit"
-                                className="w-full bg-black text-white py-4 uppercase tracking-widest text-sm font-bold hover:bg-gray-800 transition-colors"
+                                className="w-full bg-brand-gold text-brand-charcoal py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-brand-emerald-dark hover:text-brand-ivory hover:-translate-y-1 hover:shadow-xl transition-all duration-300 rounded-sm"
                             >
                                 Place Order
                             </button>

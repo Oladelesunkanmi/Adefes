@@ -152,7 +152,7 @@ const Home = () => {
                         </div>
                         <Link
                             to="/about"
-                            className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest bg-black text-white px-8 py-4 hover:bg-gray-800 transition-all"
+                            className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] bg-brand-gold text-brand-charcoal px-8 py-4 hover:bg-brand-emerald-dark hover:text-brand-ivory hover:-translate-y-1 hover:shadow-xl transition-all duration-300 rounded-sm group"
                             aria-label="Learn more about Adefes Fashion House story"
                         >
                             Read Our Story

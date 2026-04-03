@@ -77,7 +77,7 @@ const Collections = () => {
                                 </p>
                                 <button
                                     onClick={() => navigate('/shop')}
-                                    className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest border-b-2 border-black pb-1 hover:text-gray-600 hover:border-gray-600 transition-all"
+                                    className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] bg-brand-gold text-brand-charcoal px-8 py-4 hover:bg-brand-emerald-dark hover:text-brand-ivory hover:-translate-y-1 hover:shadow-xl transition-all duration-300 rounded-sm group"
                                 >
                                     View Collection
                                     <ArrowRight className="h-4 w-4" />

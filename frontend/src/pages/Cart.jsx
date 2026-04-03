@@ -14,12 +14,12 @@ const Cart = () => {
                     <h1 className="text-3xl sm:text-4xl font-playfair font-bold mb-8">Shopping Cart</h1>
                     <div className="text-center py-16">
                         <p className="text-gray-700 mb-6 font-medium">Your cart is empty</p>
-                        <Link
-                            to="/shop"
-                            className="inline-block bg-black text-white px-6 py-3 uppercase tracking-widest text-sm font-bold hover:bg-gray-800 transition-colors"
+                        <button
+                            onClick={() => navigate('/shop')}
+                            className="bg-brand-gold text-brand-charcoal px-8 py-3 uppercase tracking-[0.2em] text-xs font-bold hover:bg-brand-emerald-dark hover:text-brand-ivory transition-colors duration-300 rounded-sm"
                         >
                             Continue Shopping
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -119,8 +119,8 @@ const Cart = () => {
 
                     {/* Order Summary */}
                     <div className="lg:col-span-1">
-                        <div className="bg-gray-50 p-6 sticky top-24">
-                            <h2 className="text-xl font-playfair font-bold mb-6">Order Summary</h2>
+                        <div className="bg-brand-cream border border-brand-gray/30 shadow-sm p-6 sticky top-24 rounded-sm">
+                            <h2 className="text-xl font-playfair font-bold mb-6 text-brand-charcoal">Order Summary</h2>
 
                             <div className="space-y-3 mb-6">
                                 <div className="flex justify-between text-sm">
@@ -139,7 +139,7 @@ const Cart = () => {
 
                             <button
                                 onClick={() => navigate('/checkout')}
-                                className="w-full bg-black text-white py-3 uppercase tracking-widest text-sm font-bold hover:bg-gray-800 transition-colors mb-3"
+                                className="w-full bg-brand-gold text-brand-charcoal py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-brand-emerald-dark hover:text-brand-ivory hover:-translate-y-1 hover:shadow-lg transition-all duration-300 mb-3 rounded-sm"
                             >
                                 Proceed to Checkout
                             </button>

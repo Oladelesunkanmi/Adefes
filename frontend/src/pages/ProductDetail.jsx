@@ -133,12 +133,12 @@ const ProductDetail = () => {
                             <button
                                 onClick={handleAddToCart}
                                 disabled={product.stock === 0}
-                                className="flex-1 bg-black text-white py-5 px-8 flex items-center justify-center gap-3 uppercase tracking-[0.2em] text-xs font-bold hover:bg-gray-800 transition-all disabled:opacity-30 disabled:cursor-not-allowed group"
+                                className="flex-1 bg-brand-gold text-brand-charcoal py-5 px-8 flex items-center justify-center gap-3 uppercase tracking-[0.2em] text-xs font-bold hover:bg-brand-emerald-dark hover:text-brand-ivory hover:-translate-y-1 hover:shadow-xl transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group rounded-sm"
                             >
-                                <ShoppingCart className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                                <ShoppingCart className="h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
                                 {product.stock === 0 ? 'Out of Stock' : 'Add to Shopping Bag'}
                             </button>
-                            <button className="bg-white border border-gray-200 py-5 px-8 flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-all group">
+                            <button className="bg-brand-cream border border-brand-gray/50 py-5 px-8 flex items-center justify-center hover:bg-brand-emerald-dark hover:text-brand-ivory hover:border-brand-emerald-dark transition-all duration-300 group rounded-sm shadow-sm">
                                 <Heart className="h-5 w-5 group-hover:scale-110 transition-transform" />
                             </button>
                         </div>

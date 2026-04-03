@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"os"
@@ -26,11 +25,11 @@ func main() {
 	email := os.Args[1]
 
 	// Init database
-	err := database.InitDB()
+	err := database.Connect()
 	if err != nil {
 		log.Fatal("Failed to connect to database:", err)
 	}
-	defer database.DB.Close(context.Background())
+	defer database.Close()
 
 	// Upgrade user
 	err = database.UpdateUserRole(email, "admin")
