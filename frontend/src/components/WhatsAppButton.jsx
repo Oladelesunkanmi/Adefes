@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const WHATSAPP_NUMBER = '2348154280329';
+const WHATSAPP_NUMBER = '2348138077950';
 
 const WhatsAppButton = ({ productName }) => {
     const [isHovered, setIsHovered] = useState(false);
@@ -23,9 +23,8 @@ const WhatsAppButton = ({ productName }) => {
         >
             {/* Tooltip */}
             <div
-                className={`absolute bottom-full right-0 mb-3 bg-brand-charcoal text-brand-gold shadow-xl text-[10px] font-bold uppercase tracking-[0.2em] px-4 py-3 rounded-sm whitespace-nowrap transition-all duration-300 ${
-                    isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
-                }`}
+                className={`absolute bottom-full right-0 mb-3 bg-brand-charcoal text-brand-gold shadow-xl text-[10px] font-bold uppercase tracking-[0.2em] px-4 py-3 rounded-sm whitespace-nowrap transition-all duration-300 ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
+                    }`}
             >
                 Chat with us on WhatsApp
                 <div className="absolute top-full right-6 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-brand-charcoal"></div>
