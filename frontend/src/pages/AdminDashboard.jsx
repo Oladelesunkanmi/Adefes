@@ -432,7 +432,7 @@ const AdminDashboard = () => {
                                                 <td className="px-6 py-4 text-right">
                                                     <button
                                                         onClick={() => handleDelete(product.id)}
-                                                        className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-all"
+                                                        className="p-2 text-red-500 cursor-pointer hover:bg-black rounded-full transition-all"
                                                         title="Remove from collection"
                                                     >
                                                         <Trash2 className="h-4 w-4" />
