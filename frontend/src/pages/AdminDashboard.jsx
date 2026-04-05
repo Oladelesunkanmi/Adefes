@@ -134,7 +134,7 @@ const AdminDashboard = () => {
     };
 
     const handleDelete = async (productId) => {
-        if (!window.confirm('Are you sure you want to remove this piece from the collection?')) return;
+        // if (!window.confirm('Are you sure you want to remove this piece from the collection?')) return;
 
         try {
             const token = localStorage.getItem('token');
