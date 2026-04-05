@@ -53,7 +53,7 @@ const Home = () => {
                 </div>
 
                 {loading ? (
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
                         {[1, 2, 3, 4].map((i) => (
                             <div key={i} className="animate-pulse">
                                 <div className="bg-gray-200 aspect-[3/4] mb-4"></div>
@@ -63,7 +63,7 @@ const Home = () => {
                         ))}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
                         {newArrivals.map(product => (
                             <ProductCard key={product.id} product={product} />
                         ))}
