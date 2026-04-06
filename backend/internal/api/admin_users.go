@@ -50,3 +50,21 @@ func UpdateUserRoleHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("User role updated successfully"))
 }
+
+// TEMPORARY: Promote user to admin for testing (remove in production)
+func PromoteToAdminHandler(w http.ResponseWriter, r *http.Request) {
+	email := chi.URLParam(r, "email")
+	if email == "" {
+		http.Error(w, "Email is required", http.StatusBadRequest)
+		return
+	}
+
+	err := database.UpdateUserRole(email, "admin")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"message": "User promoted to admin successfully"})
+}

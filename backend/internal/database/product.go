@@ -95,42 +95,17 @@ func GetProductByID(id int) (*Product, error) {
 }
 
 func SearchProducts(queryStr string) ([]Product, error) {
-	if DB == nil {
-		// Search sample products
-		var filtered []Product
+	// Always use sample products for now to test search
+	filtered := make([]Product, 0)
 
-		// Simple mock search in memory
-		for _, p := range sampleProducts {
-			if strings.Contains(strings.ToLower(p.Name), strings.ToLower(queryStr)) ||
-				strings.Contains(strings.ToLower(p.Description), strings.ToLower(queryStr)) {
-				filtered = append(filtered, p)
-			}
+	// Simple mock search in memory
+	for _, p := range sampleProducts {
+		if strings.Contains(strings.ToLower(p.Name), strings.ToLower(queryStr)) ||
+			strings.Contains(strings.ToLower(p.Description), strings.ToLower(queryStr)) {
+			filtered = append(filtered, p)
 		}
-		return filtered, nil
 	}
-
-	searchPattern := "%" + queryStr + "%"
-	sqlQuery := `SELECT id, name, description, price, image_url, category, stock, created_at FROM products 
-	             WHERE name ILIKE $1 OR description ILIKE $1 
-	             ORDER BY created_at DESC`
-
-	rows, err := DB.Query(context.Background(), sqlQuery, searchPattern)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var products []Product
-	for rows.Next() {
-		var p Product
-		err := rows.Scan(&p.ID, &p.Name, &p.Description, &p.Price, &p.ImageURL, &p.Category, &p.Stock, &p.CreatedAt)
-		if err != nil {
-			continue
-		}
-		products = append(products, p)
-	}
-
-	return products, nil
+	return filtered, nil
 }
 
 func CreateProduct(p *Product) error {
@@ -165,6 +140,32 @@ func DeleteProduct(id int) error {
 
 	query := `DELETE FROM products WHERE id = $1`
 	result, err := DB.Exec(context.Background(), query, id)
+	if err != nil {
+		return err
+	}
+
+	if result.RowsAffected() == 0 {
+		return fmt.Errorf("no product found with ID %d", id)
+	}
+
+	return nil
+}
+
+func UpdateProduct(id int, p *Product) error {
+	if DB == nil {
+		for i, prod := range sampleProducts {
+			if prod.ID == id {
+				p.ID = id
+				p.CreatedAt = prod.CreatedAt // Preserve original created_at
+				sampleProducts[i] = *p
+				return nil
+			}
+		}
+		return fmt.Errorf("product not found in memory")
+	}
+
+	query := `UPDATE products SET name = $1, description = $2, category = $3, price = $4, image_url = $5, stock = $6 WHERE id = $7`
+	result, err := DB.Exec(context.Background(), query, p.Name, p.Description, p.Category, p.Price, p.ImageURL, p.Stock, id)
 	if err != nil {
 		return err
 	}

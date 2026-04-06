@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 
 const WHATSAPP_NUMBER = '2348138077950';

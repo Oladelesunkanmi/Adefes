@@ -1,16 +1,12 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import WhatsAppButton from './WhatsAppButton';
 
-const Layout = () => {
+const Layout = ({ children }) => {
     return (
         <div className="w-full min-h-screen flex flex-col font-sans">
             <Navbar />
-            <main className="flex-grow">
-                <Outlet />
-            </main>
+            <main className="flex-grow">{children}</main>
             <Footer />
             <WhatsAppButton />
         </div>

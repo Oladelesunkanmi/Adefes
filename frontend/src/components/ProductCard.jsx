@@ -1,21 +1,26 @@
+'use client';
+
 import React from 'react';
-import { Link } from 'react-router-dom';
-import config from '../config';
+import Image from 'next/image';
+import Link from 'next/link';
+import config from '@/src/config';
 
 const ProductCard = ({ product }) => {
     if (!product) return null;
 
-    const imageUrl = product.image_url.startsWith('http')
+    const imageUrl = product.image_url?.startsWith('http')
         ? product.image_url
         : `${config.API_BASE_URL}${product.image_url}`;
 
     return (
-        <Link to={`/shop/${product.id}`} className="group block hover:-translate-y-1 transition-transform duration-500">
+        <Link href={`/shop/${product.id}`} className="group block hover:-translate-y-1 transition-transform duration-500">
             <div className="relative overflow-hidden bg-brand-cream border border-brand-gray/30 shadow-sm group-hover:shadow-2xl transition-shadow duration-500 h-[400px] sm:h-[450px] lg:h-[500px] mb-4 rounded-sm">
-                <img
+                <Image
                     src={imageUrl}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 640px) 100vw, 33vw"
                 />
                 {product.stock < 10 && product.stock > 0 && (
                     <div className="absolute top-4 right-4 bg-brand-charcoal text-brand-gold px-3 py-1 text-[10px] uppercase tracking-[0.2em] font-bold shadow-md rounded-sm">

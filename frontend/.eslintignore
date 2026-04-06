@@ -1,0 +1,8 @@
+# Ignore legacy Vite app files and build output
+src/pages/
+src/App.jsx
+index.html
+vite.config.js
+MIGRATION_GUIDE.md
+MIGRATION_SUMMARY.md
+dist/

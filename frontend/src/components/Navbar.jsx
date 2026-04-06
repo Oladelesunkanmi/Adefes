@@ -1,12 +1,14 @@
+'use client';
+
 import React, { useState } from 'react';
 import { ShoppingCart, User, Search, Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { useCart } from '../context/CartContext';
+import Link from 'next/link';
+import { useAuth } from '@/src/context/AuthContext';
+import { useCart } from '@/src/context/CartContext';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const { getCartCount } = useCart();
     const cartCount = getCartCount();
 
@@ -16,16 +18,17 @@ const Navbar = () => {
                 <div className="flex justify-between h-20 items-center">
                     {/* Logo */}
                     <div className="flex-shrink-0 flex items-center">
-                        <Link to="/" className="font-playfair text-2xl md:text-3xl font-bold tracking-[0.15em] text-brand-emerald-dark hover:text-brand-gold transition-colors duration-300">
+                        <Link href="/" className="font-playfair text-2xl md:text-3xl font-bold tracking-[0.15em] text-brand-emerald-dark hover:text-brand-gold transition-colors duration-300">
                             ADEFES
                         </Link>
                     </div>
 
                     <div className="hidden md:flex space-x-8 items-center">
-                        <Link to="/" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 uppercase text-xs tracking-widest font-medium">Home</Link>
-                        <Link to="/shop" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 uppercase text-xs tracking-widest font-medium">Shop</Link>
-                        <Link to="/collections" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 uppercase text-xs tracking-widest font-medium">Collections</Link>
-                        <Link to="/about" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 uppercase text-xs tracking-widest font-medium">About</Link>
+                        <Link href="/" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 uppercase text-xs tracking-widest font-medium">Home</Link>
+                        <Link href="/shop" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 uppercase text-xs tracking-widest font-medium">Shop</Link>
+                        <Link href="/blog" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 uppercase text-xs tracking-widest font-medium">Blog</Link>
+                        <Link href="/collections" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 uppercase text-xs tracking-widest font-medium">Collections</Link>
+                        <Link href="/about" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 uppercase text-xs tracking-widest font-medium">About</Link>
                     </div>
 
                     {/* Icons */}
@@ -53,14 +56,14 @@ const Navbar = () => {
                         {user ? (
                             <>
                                 {user.role === 'admin' && (
-                                    <Link to="/admin" className="text-brand-emerald hover:text-brand-gold transition-colors duration-300 uppercase text-[10px] tracking-widest font-bold border-r border-brand-gray/50 pr-4 mr-2">
+                                    <Link href="/admin" className="text-brand-emerald hover:text-brand-gold transition-colors duration-300 uppercase text-[10px] tracking-widest font-bold border-r border-brand-gray/50 pr-4 mr-2">
                                         Admin
                                     </Link>
                                 )}
-                                <Link to="/orders" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300" title="My Orders">
+                                <Link href="/orders" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300" title="My Orders">
                                     <User className="h-5 w-5" />
                                 </Link>
-                                <Link to="/cart" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 relative group">
+                                <Link href="/cart" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 relative group">
                                     <ShoppingCart className="h-5 w-5 group-hover:scale-110 transition-transform" />
                                     {cartCount > 0 && (
                                         <span className="absolute -top-1 -right-1 bg-brand-gold text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-sm">
@@ -70,7 +73,7 @@ const Navbar = () => {
                                 </Link>
                                 <button
                                     onClick={() => {
-                                        localStorage.removeItem('token');
+                                        logout();
                                         window.location.href = '/login';
                                     }}
                                     className="text-brand-charcoal hover:text-red-600 transition-colors duration-300 text-xs uppercase tracking-widest font-bold border-l pl-6 ml-2"
@@ -79,7 +82,7 @@ const Navbar = () => {
                                 </button>
                             </>
                         ) : (
-                            <Link to="/login" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 text-xs uppercase tracking-widest font-bold">
+                            <Link href="/login" className="text-brand-charcoal hover:text-brand-gold transition-colors duration-300 text-xs uppercase tracking-widest font-bold">
                                 Login
                             </Link>
                         )}
@@ -98,15 +101,27 @@ const Navbar = () => {
             {isOpen && (
                 <div className="md:hidden bg-brand-ivory border-t border-brand-gray/50 shadow-md">
                     <div className="px-2 pt-2 pb-5 space-y-2 sm:px-3 flex flex-col items-center">
-                        <Link to="/" className="block px-3 py-2 text-brand-charcoal hover:text-brand-gold uppercase text-xs tracking-widest font-bold transition-colors">Home</Link>
-                        <Link to="/shop" className="block px-3 py-2 text-brand-charcoal hover:text-brand-gold uppercase text-xs tracking-widest font-bold transition-colors">Shop</Link>
-                        <Link to="/collections" className="block px-3 py-2 text-brand-charcoal hover:text-brand-gold uppercase text-xs tracking-widest font-bold transition-colors">Collections</Link>
-                        <Link to="/about" className="block px-3 py-2 text-brand-charcoal hover:text-brand-gold uppercase text-xs tracking-widest font-bold transition-colors">About</Link>
-                        <div className="flex space-x-8 mt-6 pb-2">
-                            <button className="text-brand-charcoal hover:text-brand-gold transition-colors"><Search className="h-6 w-6" /></button>
-                            <Link to="/orders" className="text-brand-charcoal hover:text-brand-gold transition-colors"><User className="h-6 w-6" /></Link>
-                            <Link to="/cart" className="text-brand-charcoal hover:text-brand-gold transition-colors"><ShoppingCart className="h-6 w-6" /></Link>
-                        </div>
+                        <Link href="/" className="block text-brand-charcoal hover:text-brand-gold px-3 py-2 rounded-md text-base font-medium">Home</Link>
+                        <Link href="/shop" className="block text-brand-charcoal hover:text-brand-gold px-3 py-2 rounded-md text-base font-medium">Shop</Link>
+                        <Link href="/blog" className="block text-brand-charcoal hover:text-brand-gold px-3 py-2 rounded-md text-base font-medium">Blog</Link>
+                        <Link href="/about" className="block text-brand-charcoal hover:text-brand-gold px-3 py-2 rounded-md text-base font-medium">About</Link>
+                        {user ? (
+                            <>
+                                <Link href="/orders" className="block text-brand-charcoal hover:text-brand-gold px-3 py-2 rounded-md text-base font-medium">My Orders</Link>
+                                <Link href="/cart" className="block text-brand-charcoal hover:text-brand-gold px-3 py-2 rounded-md text-base font-medium">Cart</Link>
+                                <button
+                                    onClick={() => {
+                                        logout();
+                                        window.location.href = '/login';
+                                    }}
+                                    className="block text-brand-charcoal hover:text-red-600 px-3 py-2 rounded-md text-base font-medium w-full text-left"
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        ) : (
+                            <Link href="/login" className="block text-brand-charcoal hover:text-brand-gold px-3 py-2 rounded-md text-base font-medium">Login</Link>
+                        )}
                     </div>
                 </div>
             )}

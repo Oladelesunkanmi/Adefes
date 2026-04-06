@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Instagram, Twitter, Facebook } from 'lucide-react';
 
@@ -11,7 +13,7 @@ const Footer = () => {
                         <h3 className="font-playfair text-2xl font-bold tracking-[0.15em] mb-4 text-brand-gold">ADEFES</h3>
                         <p className="text-brand-ivory/80 text-sm leading-relaxed mb-6">
                             Lagos • Ado Ekiti <br />
-                            Premium handcrafted Nigerian men's traditional wear. Our master tailors combine generations of expertise with modern design for the distinguished man.
+                            Premium handcrafted Nigerian men&apos;s traditional wear. Our master tailors combine generations of expertise with modern design for the distinguished man.
                         </p>
                     </div>
 
@@ -70,7 +72,7 @@ const Footer = () => {
                 </div>
 
                 <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-gray-100 text-center text-gray-400 text-xs">
-                    &copy; {new Date().getFullYear()} Adefes Fashion House. Premium Nigerian Agbada & Men's Wear. All rights reserved.
+                    &copy; {new Date().getFullYear()} Adefes Fashion House. Premium Nigerian Agbada & Men&apos;s Wear. All rights reserved.
                 </div>
             </div>
         </footer>

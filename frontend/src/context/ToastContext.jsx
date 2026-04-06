@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useState, useContext } from 'react';
 
 const ToastContext = createContext(null);
@@ -13,10 +15,6 @@ export const ToastProvider = ({ children }) => {
         setTimeout(() => {
             setToasts(prev => prev.filter(toast => toast.id !== id));
         }, 3000);
-    };
-
-    const removeToast = (id) => {
-        setToasts(prev => prev.filter(toast => toast.id !== id));
     };
 
     return (
@@ -39,4 +37,10 @@ export const ToastProvider = ({ children }) => {
     );
 };
 
-export const useToast = () => useContext(ToastContext);
+export const useToast = () => {
+    const context = useContext(ToastContext);
+    if (!context) {
+        throw new Error('useToast must be used within a ToastProvider');
+    }
+    return context;
+};

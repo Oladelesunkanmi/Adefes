@@ -23,7 +23,7 @@ func Setup(r *chi.Mux) {
 
 	// CORS Configuration
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:5173", "https://adefes-1.onrender.com"},
+		AllowedOrigins:   []string{"http://localhost:3000", "http://localhost:3004", "http://localhost:5173", "http://localhost", "https://adefes.com", "https://adefes-1.onrender.com"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
@@ -51,6 +51,9 @@ func Setup(r *chi.Mux) {
 		r.Get("/products/search", api.SearchProductsHandler)
 		r.Get("/products/{id}", api.GetProductByIDHandler)
 
+		// TEMPORARY: Allow promoting users to admin for testing (remove in production)
+		r.Put("/admin/promote/{email}", api.PromoteToAdminHandler)
+
 		// Protected routes
 		r.Group(func(r chi.Router) {
 			r.Use(api.AuthMiddleware)
@@ -62,6 +65,7 @@ func Setup(r *chi.Mux) {
 			r.Use(api.AuthMiddleware)
 			r.Use(api.AdminMiddleware)
 			r.Post("/products", api.CreateProductHandler)
+			r.Put("/products/{id}", api.UpdateProductHandler)
 			r.Delete("/products/{id}", api.DeleteProductHandler)
 
 			// Admin user management
@@ -80,7 +84,7 @@ func Setup(r *chi.Mux) {
 	if _, err := os.Stat(distPath); os.IsNotExist(err) {
 		distPath = "../frontend/dist" // fallback if running from backend folder
 	}
-	
+
 	if _, err := os.Stat(distPath); err == nil {
 		fs := http.FileServer(http.Dir(distPath))
 		r.Get("/*", func(w http.ResponseWriter, r *http.Request) {

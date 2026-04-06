@@ -1,0 +1,9 @@
+{
+  "/page": "app/page.js",
+  "/collections/page": "app/collections/page.js",
+  "/about/page": "app/about/page.js",
+  "/shop/page": "app/shop/page.js",
+  "/blog/[slug]/page": "app/blog/[slug]/page.js",
+  "/blog/page": "app/blog/page.js",
+  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js"
+}

@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+}
+
+::selection {
+  @apply bg-brand-gold text-brand-charcoal;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-brand-gold rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-brand-emerald-dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply text-brand-charcoal antialiased;
+}
+
+a {
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold;
+}
+
+button {
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold;
+}
+
+input,
+textarea,
+select {
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}

@@ -1,34 +1,45 @@
+'use client';
+
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [token, setToken] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Check local storage for existing session
-        const storedToken = localStorage.getItem('token');
-        const storedUser = localStorage.getItem('user');
+        // Check session storage for existing session
+        const storedToken = typeof window !== 'undefined' ? sessionStorage.getItem('token') : null;
+        const storedUser = typeof window !== 'undefined' ? sessionStorage.getItem('user') : null;
 
         if (storedToken && storedUser) {
             setToken(storedToken);
-            setUser(JSON.parse(storedUser));
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (parseError) {
+                console.error('Failed to parse stored user:', parseError);
+                sessionStorage.removeItem('user');
+            }
         }
         setLoading(false);
     }, []);
 
     const login = (newToken, newUser) => {
-        localStorage.setItem('token', newToken);
-        localStorage.setItem('user', JSON.stringify(newUser));
+        if (typeof window !== 'undefined') {
+            sessionStorage.setItem('token', newToken);
+            sessionStorage.setItem('user', JSON.stringify(newUser));
+        }
         setToken(newToken);
         setUser(newUser);
     };
 
     const logout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        if (typeof window !== 'undefined') {
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
+        }
         setToken(null);
         setUser(null);
     };
@@ -40,4 +51,10 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+};

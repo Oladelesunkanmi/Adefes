@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
 const CartContext = createContext(null);
@@ -6,19 +8,25 @@ export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Load cart from localStorage on mount
+    // Load cart from session storage on mount
     useEffect(() => {
-        const savedCart = localStorage.getItem('cart');
-        if (savedCart) {
-            setCartItems(JSON.parse(savedCart));
+        if (typeof window !== 'undefined') {
+            const savedCart = sessionStorage.getItem('cart');
+            if (savedCart) {
+                try {
+                    setCartItems(JSON.parse(savedCart));
+                } catch {
+                    setCartItems([]);
+                }
+            }
         }
         setLoading(false);
     }, []);
 
-    // Save cart to localStorage whenever it changes
+    // Save cart to session storage whenever it changes
     useEffect(() => {
-        if (!loading) {
-            localStorage.setItem('cart', JSON.stringify(cartItems));
+        if (!loading && typeof window !== 'undefined') {
+            sessionStorage.setItem('cart', JSON.stringify(cartItems));
         }
     }, [cartItems, loading]);
 
@@ -90,4 +98,10 @@ export const CartProvider = ({ children }) => {
     );
 };
 
-export const useCart = () => useContext(CartContext);
+export const useCart = () => {
+    const context = useContext(CartContext);
+    if (!context) {
+        throw new Error('useCart must be used within a CartProvider');
+    }
+    return context;
+};

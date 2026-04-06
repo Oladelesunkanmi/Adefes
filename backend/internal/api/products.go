@@ -140,3 +140,74 @@ func DeleteProductHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusNoContent)
 }
+
+func UpdateProductHandler(w http.ResponseWriter, r *http.Request) {
+	idStr := chi.URLParam(r, "id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "Invalid product ID", http.StatusBadRequest)
+		return
+	}
+
+	// 10MB max memory
+	if err := r.ParseMultipartForm(10 << 20); err != nil {
+		http.Error(w, "Failed to parse form", http.StatusBadRequest)
+		return
+	}
+
+	name := r.FormValue("name")
+	description := r.FormValue("description")
+	category := r.FormValue("category")
+	priceStr := r.FormValue("price")
+	stockStr := r.FormValue("stock")
+
+	price, _ := strconv.ParseFloat(priceStr, 64)
+	stock, _ := strconv.Atoi(stockStr)
+
+	// Handle file upload
+	file, handler, err := r.FormFile("image")
+	var imageURL string
+
+	if err == nil {
+		defer file.Close()
+
+		// Create unique filename
+		filename := fmt.Sprintf("%d_%s", time.Now().Unix(), handler.Filename)
+		filePath := filepath.Join("uploads", filename)
+
+		dst, err := os.Create(filePath)
+		if err != nil {
+			http.Error(w, "Failed to save image", http.StatusInternalServerError)
+			return
+		}
+		defer dst.Close()
+
+		if _, err := io.Copy(dst, file); err != nil {
+			http.Error(w, "Failed to copy image", http.StatusInternalServerError)
+			return
+		}
+
+		imageURL = "/uploads/" + filename
+	} else {
+		// Fallback to image_url if provided (for backward compatibility or remote links)
+		imageURL = r.FormValue("image_url")
+	}
+
+	p := database.Product{
+		ID:          id,
+		Name:        name,
+		Description: description,
+		Category:    category,
+		Price:       price,
+		Stock:       stock,
+		ImageURL:    imageURL,
+	}
+
+	if err := database.UpdateProduct(id, &p); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(p)
+}
