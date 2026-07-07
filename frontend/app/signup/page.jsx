@@ -30,7 +30,7 @@ export default function Signup() {
         setLoading(true);
 
         try {
-            const response = await fetch(`${config.API_BASE_URL}/api/signup`, {
+            const response = await fetch(`${config.API_BASE_URL}/api/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: formData.name, email: formData.email, password: formData.password }),
